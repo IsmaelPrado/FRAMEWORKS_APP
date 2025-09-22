@@ -16,25 +16,29 @@ class HomePageWidget extends StatelessWidget {
         imagePath: "assets/images/flutter.png",
         description:
             "Framework de Google para desarrollar aplicaciones nativas para iOS y Android desde un solo código.",
+        color: Colors.blue,
+        icon: Icons.flutter_dash,
       ),
       FrameworkModel(
         name: "Kotlin/Swift",
         imagePath: "assets/images/kotlin_swift.png",
         description:
             "Lenguajes nativos para Android (Kotlin) y iOS (Swift) para máximo rendimiento y acceso a APIs nativas.",
+        color: Colors.orange,
+        icon: Icons.code,
       ),
       FrameworkModel(
         name: "React Native",
         imagePath: "assets/images/react_native.png",
         description:
             "Framework de Facebook que permite crear apps nativas usando JavaScript y React.",
+        color: Colors.lightBlue,
+        icon: Icons.mobile_friendly,
       ),
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Frameworks de Desarrollo Móvil'),
-      ),
+      appBar: AppBar(title: const Text('Frameworks de Desarrollo Móvil')),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -126,22 +130,44 @@ class HomePageWidget extends StatelessWidget {
                   return Card(
                     margin: const EdgeInsets.symmetric(vertical: 8),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15)),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    color: framework.color,
                     elevation: 5,
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      child: Row(
                         children: [
-                          Text(
-                            framework.name,
-                            style: const TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                          // Logo a la izquierda
+                          // Icono a la izquierda
+                          Icon(framework.icon, size: 40, color: Colors.white),
+
+                          const SizedBox(width: 12),
+
+                          // Nombre en el centro
+                          Expanded(
+                            child: Text(
+                              framework.name,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
-                          const SizedBox(height: 10),
-                          Text(
-                            framework.description,
-                            style: const TextStyle(fontSize: 16),
+
+                          // Botón a la derecha
+                          IconButton(
+                            icon: const Icon(
+                              Icons.arrow_forward,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              print('Seleccionaste ${framework.name}');
+                            },
                           ),
                         ],
                       ),
