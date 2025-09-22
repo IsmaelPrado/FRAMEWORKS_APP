@@ -41,10 +41,10 @@ class HomePageWidget extends StatelessWidget {
             const SizedBox(height: 20),
             CarouselSlider(
               options: CarouselOptions(
-                height: 200,
+                height: 220,
                 autoPlay: true,
                 enlargeCenterPage: true,
-                viewportFraction: 0.8,
+                viewportFraction: 0.85,
                 aspectRatio: 16 / 9,
               ),
               items: frameworks.map((framework) {
@@ -52,11 +52,65 @@ class HomePageWidget extends StatelessWidget {
                   builder: (BuildContext context) {
                     return Container(
                       margin: const EdgeInsets.symmetric(horizontal: 5),
-                      decoration: BoxDecoration(
+                      child: ClipRRect(
                         borderRadius: BorderRadius.circular(15),
-                        image: DecorationImage(
-                          image: AssetImage(framework.imagePath),
-                          fit: BoxFit.cover,
+                        child: Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            Image.asset(
+                              framework.imagePath,
+                              fit: BoxFit.cover,
+                            ),
+                            // Fondo semitransparente
+                            Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.black.withOpacity(0.9),
+                                    Colors.black.withOpacity(0.6),
+                                    Colors.transparent,
+                                  ],
+                                  begin: Alignment.bottomCenter,
+                                  end: Alignment.topCenter,
+                                ),
+                              ),
+                            ),
+                            // Texto encima
+                            Positioned(
+                              bottom: 20,
+                              left: 20,
+                              right: 20,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    framework.name,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                      shadows: [
+                                        Shadow(
+                                          color: Colors.black,
+                                          blurRadius: 6,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    framework.description,
+                                    style: const TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 14,
+                                    ),
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     );

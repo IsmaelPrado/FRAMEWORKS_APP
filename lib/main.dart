@@ -3,6 +3,7 @@ import 'package:frameworks_app/models/home_page.dart';
 import 'package:frameworks_app/pages/home_page_widget.dart';
 import 'pages/tutorial_page_widget.dart';
 import 'models/tutorial_page.dart';
+import 'pages/comparison_page.dart'; // Nueva página de comparaciones
 
 void main() {
   runApp(const MyApp());
@@ -54,8 +55,8 @@ class _TutorialScreenState extends State<TutorialScreen> {
       title: "Conoce más...",
       text:
           "Explora Flutter, React Native y Kotlin/Swift para descubrir cuál se adapta mejor a tus proyectos y necesidades.",
-      bgColor1: const Color.fromARGB(255, 99, 76, 175),
-      bgColor2: const Color.fromARGB(255, 112, 105, 240),
+      bgColor1: Color.fromARGB(255, 99, 76, 175),
+      bgColor2: Color.fromARGB(255, 112, 105, 240),
     ),
   ];
 
@@ -104,16 +105,11 @@ class _TutorialScreenState extends State<TutorialScreen> {
                           duration: const Duration(milliseconds: 400),
                           curve: Curves.easeInOut);
                     } else {
-                      // Acción al terminar tutorial
-                      // Por ejemplo, navegar a la pantalla principal
+                      // Cuando termina el tutorial, mandamos a MainScreen
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => HomePageWidget(
-                            home: HomePageModel(
-                              welcomeText: "¡Bienvenido a la página principal!",
-                            ),
-                          ),
+                          builder: (context) => const MainScreen(),
                         ),
                       );
                     }
@@ -129,6 +125,56 @@ class _TutorialScreenState extends State<TutorialScreen> {
               ],
             ),
           )
+        ],
+      ),
+    );
+  }
+}
+
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
+
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = [
+    HomePageWidget(
+      home: HomePageModel(
+        welcomeText: "¡Bienvenido a la página principal!",
+      ),
+    ),
+    const ComparisonPage(), // Aquí pones la página de comparaciones
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        selectedItemColor: Colors.blueAccent,
+        unselectedItemColor: Colors.grey,
+        showUnselectedLabels: true,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "Inicio",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.table_chart),
+            label: "Comparaciones",
+          ),
         ],
       ),
     );
